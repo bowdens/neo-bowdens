@@ -8,17 +8,18 @@ const Home = ({ setWd }) => {
             <h2>Hi There!</h2>
             <p>This is <FsLink path="about" setWd={setWd}>Tom Bowden's</FsLink> site.</p>
             <p>Some projects I've worked on are <FsLink path="projects" setWd={setWd}>here</FsLink>.</p>
-            <p>Try using the terminal below! Its the whole gimmick I built this site around after all...</p>
+            <p>Try using the terminal on the left! Its the whole gimmick I built this site around after all...</p>
             <p>
                 <button className="btn btn-link" onClick={() => { setShowCollapse(!showCollapse) }} >
                     Need a hint for how to work the terminal?
                 </button>
             </p>
-            <p style={!showCollapse ? { display: "none" } : {}}>
-                If you're familiar with how to navigate around in a UNIX-like terminal then you should be good.
-                Use <code>ls</code> to list the files (web pages), and <code>cd [TARGET]</code> to view it.
-                Use <code>cd ..</code> to return to the parent directory, and <code>pwd</code> to show where you're at.
-            </p>
+            <div style={!showCollapse ? { display: "none" } : {}}>
+                <p>If you're familiar with how to navigate around in a UNIX-like terminal then you should be good.</p>
+                <p>Use <code>ls</code> to list the files (web pages), and <code>cd [TARGET]</code> to view it.</p>
+                <p>Use <code>cd ..</code> to return to the parent directory, and <code>pwd</code> to show where you're at.</p>
+                <p>Also by the way (most) of the bash control keys work!</p>
+            </div>
         </>
     );
 }

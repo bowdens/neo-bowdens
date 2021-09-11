@@ -10,13 +10,13 @@ const About = ({ setWd }) => {
             </p>
             <p>I'm currently in my final year of a computer science degree at UNSW.</p>
             <p>Things I like include:</p>
-            <p>
+            <div>
                 <ul>
                     <li>Web Development</li>
                     <li>Dungeons &amp; Dragons</li>
-                    <li><FsLink path="/projects/extradimensional" setWd={setWd}>Combining the two</FsLink></li>
+                    <li><FsLink path="../projects/extradimensional" setWd={setWd}>Combining the two</FsLink></li>
                 </ul>
-            </p>
+            </div>
             <p>My links:  {' '}
                 <a href="https://github.com/bowdens" target="_blank" rel="noopener noreferrer">Github</a>, {' '}
                 <a href="https://www.linkedin.com/in/t-bowden/" target="_blank" rel="noopener noreferrer">LinkedIn</a> {' '}

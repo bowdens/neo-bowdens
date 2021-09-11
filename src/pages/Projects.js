@@ -8,11 +8,13 @@ const Projects = ({ setWd }) => {
     return (
         <>
             <h2>Projects</h2>
-            Here are a few projects I've worked on.
-            <ul>
-                <li><FsLink path={"./extradimensional"} setWd={setWd}>Extradimension.al</FsLink></li>
-                <li><FsLink path={"./libtalaris"} setWd={setWd}>Libtalaris</FsLink></li>
-            </ul>
+            <p>Here are a few projects I've worked on.</p>
+            <div>
+                <ul>
+                    <li><FsLink path={"./extradimensional"} setWd={setWd}>Extradimension.al</FsLink></li>
+                    <li><FsLink path={"./libtalaris"} setWd={setWd}>Libtalaris</FsLink></li>
+                </ul>
+            </div>
         </>
     );
 };
@@ -60,7 +62,7 @@ export const Extradimensional = ({ setWd }) => {
                 It aims to replace the old-fashioned method of assigning 1 person the responsibility of tracking what's in the bag
                 on pen and paper with a website where the bag updates live for all players whenever anything is added or altered.
             </p>
-            <p>If you go to the link about you can try it out! There's no account required :)</p>
+            <p>If you go to the link above you can try it out! There's no account required :)</p>
         </Project>
     )
 };
