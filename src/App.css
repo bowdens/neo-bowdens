@@ -3,9 +3,14 @@ html {
 }
 
 body {
-  height: 100%;
+  height: 100%; 
+  font-family: 'Hack', source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
 #root {
   height: 100%;
+}
+
+.btn-link {
+  padding: 0;
 }

@@ -1,19 +1,45 @@
-import './App.css';
 import Console from 'react-terminal';
-import 'react-terminal/dist/index.css';
-import { objToInodes } from './utils/fs';
-import Home from "./pages/Home";
-import Projects from "./pages/Projects";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 import React, { useState } from "react";
+
+import { objToInodes } from './utils/fs';
+import { elementToText } from './utils/utils';
+import Home from "./pages/Home";
+import Projects, { Extradimensional, Libtalaris } from "./pages/Projects";
+import Secret from './pages/Secret';
+import About from './pages/About';
+
+import "bootstrap/dist/css/bootstrap.min.css";
+import 'react-terminal/dist/index.css';
+import './App.css';
 
 const fs = objToInodes({
   name: "/",
-  path: "/",
+  path: "",
   content: Home,
   children: [{
-    name: "Projects",
-    path: "/projects",
-    content: Projects
+    name: "projects",
+    path: "projects",
+    content: Projects,
+    children: [{
+      name: "libtalaris",
+      path: "libtalaris",
+      content: Libtalaris
+    }, {
+      name: "extradimensional",
+      path: "extradimensional",
+      content: Extradimensional
+    }]
+  }, {
+    name: "about",
+    path: "about",
+    content: About,
+  }, {
+    name: ".secret",
+    path: ".secret",
+    content: Secret
   }]
 });
 
@@ -49,7 +75,7 @@ function App() {
       if (all) {
         children = ['.', '..', ...children];
       }
-      return children.join(" ");
+      return children.sort().join(" ");
     },
     pwd: ({ argv: [prog, target] }) => {
       const inode = wd.stat(target || ".");
@@ -58,14 +84,71 @@ function App() {
       } else {
         return inode.pwd();
       }
-    }
+    },
+    cat: ({ argv: [prog, ...targets] }) => {
+      let output = "";
+      for (const target of targets) {
+        const inode = wd.stat(target);
+        if (!inode) {
+          output += `${prog}: ${target}: no such file or directory\n`;
+        } else {
+          if (targets.length > 1) output += target + '\n';
+          if (inode.content) output += elementToText(inode.content({})) + '\n';
+        }
+      }
+      return output;
+    },
+    whoami: () => "Hi. I'm Tom. I'm not sure who you are though!",
+    help: () => "Try using ls, pwd, and cd!",
+    "?": () => "Try using ls, pwd, and cd!",
+    sudo: () => "You are not in the sudoers file. This incident will be reported",
+    ping: () => "pong",
+    dir: () => "Try ls",
   }
   const Content = wd.content;
   return (
     <>
-      <h1>{wd.pwd()}</h1>
-      <Content />
-      <Console style={{ height: "200px", position: "fixed", bottom: "5%" }} programs={programs} prompt={`$\u00a0${wd.pwd()}\u00a0`} />
+      <Container style={{ height: '100%', marginTop: "10vh", maxHeight: "70vh" }}>
+        <Row style={{ height: '100%', maxWidth: "800px" }}>
+          <Col md={6}>
+            <Console
+              style={{
+                height: "70vh", minHeight: "200px",
+                color: "limegreen", backgroundColor: "black",
+              }}
+              programs={programs}
+              prompt={`${wd.name}\u00a0$\u00a0`}
+            />
+          </Col>
+          <Col
+            md={6}
+            style={{
+              overflowY: "auto",
+              maxHeight: "100%",
+              scrollbarWidth: "thin",
+              scrollbarColor: "black transparent",
+            }}
+          >
+            <Row>
+              <div
+                className="text-muted"
+                style={{ cursor: "pointer" }}
+                onClick={() => { setWd(wd.stat("/")) }}
+              >
+                {wd.pwd()}
+              </div>
+            </Row>
+            <Row>
+              <Content
+                setWd={path => {
+                  const newWd = wd.stat(path);
+                  if (!!newWd) setWd(newWd);
+                }}
+              />
+            </Row>
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 }

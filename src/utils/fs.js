@@ -1,3 +1,5 @@
+import Button from 'react-bootstrap/Button';
+
 class Inode {
     constructor(name, content, path) {
         this.name = name;
@@ -41,16 +43,16 @@ class Inode {
 
     _pwd() {
         if (this.parent === null) {
-            return this.name;
+            return [this.path];
         }
-        return this.parent.pwd() +  this.name + '/';
+        return [...this.parent._pwd(), this.path];
     }
 
     pwd() {
         if (this.parent === null) {
             return this.name;
         }
-        return this._pwd().slice(0,-1);
+        return this._pwd().join('/');
     }
 }
 
@@ -60,6 +62,12 @@ export const objToInodes = obj => {
         obj.children.forEach(child => i.addChild(objToInodes(child)));
     }
     return i;
-}
+};
+
+export const FsLink = ({ path, children, setWd }) => {
+    return (
+        <Button variant="link" onClick={() => { setWd(path) }}>{children}</Button>
+    );
+};
 
 export default Inode;
