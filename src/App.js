@@ -1,4 +1,4 @@
-import Console from 'react-terminal';
+import Console from '@bowdens/react-terminal';
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -12,7 +12,7 @@ import Secret from './pages/Secret';
 import About from './pages/About';
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import 'react-terminal/dist/index.css';
+import '@bowdens/react-terminal/dist/index.css';
 import './App.css';
 
 const fs = objToInodes({
