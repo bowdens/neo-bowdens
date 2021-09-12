@@ -13,6 +13,7 @@ const Projects = ({ setWd }) => {
                 <ul>
                     <li><FsLink path={"./extradimensional"} setWd={setWd}>Extradimension.al</FsLink></li>
                     <li><FsLink path={"./libtalaris"} setWd={setWd}>Libtalaris</FsLink></li>
+                    <li><FsLink path={"./react-terminal"} setWd={setWd}>react-terminal</FsLink></li>
                 </ul>
             </div>
         </>
@@ -24,8 +25,8 @@ const Project = ({ title, blurb, link, children, setWd }) => {
         <div>
             <h2>{title || "Untitled Project"}</h2>
             {blurb ?
-                <p>{blurb}{link && <>. <a href={link}>Visit {title}</a></>}</p>
-                : link && <p><a href={link} target="_blank" rel="noopener noreferrer">Visit {title}</a></p>
+                <p className="text-muted">{blurb}{link && <>. <a href={link}>Visit {title}</a></>}</p>
+                : link && <p className="text-muted"><a href={link} target="_blank" rel="noopener noreferrer">Visit {title}</a></p>
             }
             <article>
                 {children}
@@ -66,5 +67,25 @@ export const Extradimensional = ({ setWd }) => {
         </Project>
     )
 };
+
+
+export const ReactTerimnal = ({ setWd }) => {
+    return (
+        <Project
+            title="react-terminal"
+            blurb="A novelty terminal for react"
+            link="https://github.com/bowdens/react-terminal"
+            setWd={setWd}
+        >
+            <p>
+                <code>react-terminal</code> is a novelty terminal component for react.
+                You provide the programs and the logic for them and it'll execute them for your users
+            </p>
+            <p>Programs are passed as a prop to the component in the form <code>{"{ programName: [programName, ...args] => \"output text\", }"}</code></p>
+            <p>The terminal on the left is an example of this component! It's been designed to vaugely replicate a UNIX-like filesystem using ls and cd to navigate.</p>
+        </Project>
+    )
+};
+
 
 export default Projects;

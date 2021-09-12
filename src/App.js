@@ -7,7 +7,7 @@ import React, { useState } from "react";
 import { objToInodes } from './utils/fs';
 import { elementToText } from './utils/utils';
 import Home from "./pages/Home";
-import Projects, { Extradimensional, Libtalaris } from "./pages/Projects";
+import Projects, { Extradimensional, Libtalaris, ReactTerimnal } from "./pages/Projects";
 import Secret from './pages/Secret';
 import About from './pages/About';
 
@@ -31,6 +31,10 @@ const fs = objToInodes({
       name: "extradimensional",
       path: "extradimensional",
       content: Extradimensional
+    }, {
+      name: "react-terminal",
+      path: "react-terminal",
+      content: ReactTerimnal
     }]
   }, {
     name: "about",
@@ -118,6 +122,7 @@ function App() {
               }}
               programs={programs}
               prompt={`${wd.name}\u00a0$\u00a0`}
+              motd={"Welcome to the terminal!\nYou can navigate using the unix commands like ls and cd."}
             />
           </Col>
           <Col
