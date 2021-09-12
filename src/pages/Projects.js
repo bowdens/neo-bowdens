@@ -83,6 +83,8 @@ export const ReactTerimnal = ({ setWd }) => {
             </p>
             <p>Programs are passed as a prop to the component in the form <code>{"{ programName: [programName, ...args] => \"output text\", }"}</code></p>
             <p>The terminal on the left is an example of this component! It's been designed to vaugely replicate a UNIX-like filesystem using ls and cd to navigate.</p>
+            <p>This project was built for the personal project competition for CSESoc.</p>
+            <p>Feel free to use it for your own react projects! use <code>npm install @bowdens/react-terminal</code> and check out the documentation/example from the link above. If you do use it, let me know!</p>
         </Project>
     )
 };

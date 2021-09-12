@@ -1,4 +1,6 @@
 import { useState } from "react";
+import Alert from "react-bootstrap/Alert";
+
 import { FsLink } from "../utils/fs";
 
 const Home = ({ setWd }) => {
@@ -8,7 +10,8 @@ const Home = ({ setWd }) => {
             <h2>Hi There!</h2>
             <p>This is <FsLink path="about" setWd={setWd}>Tom Bowden's</FsLink> site.</p>
             <p>Some projects I've worked on are <FsLink path="projects" setWd={setWd}>here</FsLink>.</p>
-            <p>Try using the terminal on the left! Its the whole gimmick I built this site around after all...</p>
+            <p>Try using the terminal on the left! I built it for the CSESoc competition. You can use it too!</p>
+            <Alert variant="primary">Install react-terminal: <br /> <code>npm install @bowdens/react-terminal</code></Alert>
             <p>
                 <button className="btn btn-link" onClick={() => { setShowCollapse(!showCollapse) }} >
                     Need a hint for how to work the terminal?
