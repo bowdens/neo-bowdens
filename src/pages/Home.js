@@ -11,7 +11,7 @@ const Home = ({ setWd }) => {
             <p>This is <FsLink path="about" setWd={setWd}>Tom Bowden's</FsLink> site.</p>
             <p>Some projects I've worked on are <FsLink path="projects" setWd={setWd}>here</FsLink>.</p>
             <p>Try using the terminal on the left! I built it for the CSESoc competition. You can use it too!</p>
-            <Alert variant="primary">Install react-terminal: <br /> <code>npm install @bowdens/react-terminal</code></Alert>
+            <Alert variant="primary">Install <a href={"https://www.npmjs.com/package/@bowdens/react-terminal"} target="_blank" rel="noopener noreferrer">react-terminal</a>: <br /> <code>npm install @bowdens/react-terminal</code></Alert>
             <p>
                 <button className="btn btn-link" onClick={() => { setShowCollapse(!showCollapse) }} >
                     Need a hint for how to work the terminal?
