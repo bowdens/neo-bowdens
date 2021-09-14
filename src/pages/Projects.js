@@ -54,7 +54,7 @@ export const Extradimensional = ({ setWd }) => {
         <Project
             title="Extradimensional"
             blurb="An online bag of holding"
-            link="https://extradimension.al"
+            link="https://extradimension.al/?ref=neobowdens"
             setWd={setWd}
         >
             <Image src={extradimensional} alt="extradimensional" fluid />
