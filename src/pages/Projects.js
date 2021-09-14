@@ -25,7 +25,7 @@ const Project = ({ title, blurb, link, children, setWd }) => {
         <div>
             <h2>{title || "Untitled Project"}</h2>
             {blurb ?
-                <p className="text-muted">{blurb}{link && <>. <a href={link}>Visit {title}</a></>}</p>
+                <p className="text-muted">{blurb}{link && <>. <a href={link} target="_blank" rel="noopener noreferrer">Visit {title}</a></>}</p>
                 : link && <p className="text-muted"><a href={link} target="_blank" rel="noopener noreferrer">Visit {title}</a></p>
             }
             <article>
