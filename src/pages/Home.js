@@ -3,13 +3,13 @@ import Alert from "react-bootstrap/Alert";
 
 import { FsLink } from "../utils/fs";
 
-const Home = ({ setWd }) => {
+const Home = () => {
     const [showCollapse, setShowCollapse] = useState(false);
     return (
         <>
             <h2>Hi There!</h2>
-            <p>This is <FsLink path="about" setWd={setWd}>Tom Bowden's</FsLink> site.</p>
-            <p>Some projects I've worked on are <FsLink path="projects" setWd={setWd}>here</FsLink>.</p>
+            <p>This is <FsLink path="about">Tom Bowden's</FsLink> site.</p>
+            <p>Some projects I've worked on are <FsLink path="projects">here</FsLink>.</p>
             <p>Try using the terminal on the left! I built it for the CSESoc competition. You can use it too!</p>
             <Alert variant="primary">Install <a href={"https://www.npmjs.com/package/@bowdens/react-terminal"} target="_blank" rel="noopener noreferrer">react-terminal</a>: <br /> <code>npm install @bowdens/react-terminal</code></Alert>
             <p>

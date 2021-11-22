@@ -2,9 +2,10 @@ import Console from '@bowdens/react-terminal';
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Route, Switch, useHistory, useLocation } from "react-router-dom";
 
-import { objToInodes } from './utils/fs';
+import { fsContext, FsLink, inodeToRoutes, objToInodes } from './utils/fs';
 import { elementToText } from './utils/utils';
 import Home from "./pages/Home";
 import Projects, { Extradimensional, Libtalaris, ReactTerimnal } from "./pages/Projects";
@@ -48,7 +49,21 @@ const fs = objToInodes({
 });
 
 function App() {
-  const [wd, setWd] = useState(fs);
+  const history = useHistory();
+  const location = useLocation();
+  const [wd, _setWd] = useState(fs);
+  const setWd = newWd => {
+    history.push(newWd.pwd());
+    _setWd(newWd);
+  };
+
+  useEffect(() => {
+    const node = fs.stat(location.pathname);
+    _setWd(node);
+  // we only want to do this when its first loaded to sync up the pathname with wd
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const programs = {
     cd: ({ argv: [prog, target] }) => {
       if (!target) {
@@ -108,10 +123,10 @@ function App() {
     sudo: () => "You are not in the sudoers file. This incident will be reported",
     ping: () => "pong",
     dir: () => "Try ls",
-  }
-  const Content = wd.content;
+  };
+
   return (
-    <>
+    <fsContext.Provider value={{ wd, setWd }}>
       <Container style={{ height: '100%', marginTop: "10vh", maxHeight: "70vh" }}>
         <Row style={{ height: '100%', maxWidth: "800px" }}>
           <Col md={6}>
@@ -121,7 +136,7 @@ function App() {
                 color: "limegreen", backgroundColor: "black",
               }}
               programs={programs}
-              prompt={`${wd.name}\u00a0$\u00a0`}
+              prompt={`${wd.name} $\u00a0`}
               motd={"Welcome to the terminal!\nYou can navigate using the unix commands like ls and cd."}
             />
           </Col>
@@ -144,17 +159,21 @@ function App() {
               </div>
             </Row>
             <Row>
-              <Content
-                setWd={path => {
-                  const newWd = wd.stat(path);
-                  if (!!newWd) setWd(newWd);
-                }}
-              />
+              <Switch>
+                {inodeToRoutes(fs).map(({ path, content: Content }) =>
+                  <Route path={path} key={path} exact>
+                    <Content />
+                  </Route>
+                )}
+                <Route path="/">
+                  Page not found! <FsLink path="/">Return Home</FsLink>
+                </Route>
+              </Switch>
             </Row>
           </Col>
         </Row>
       </Container>
-    </>
+    </fsContext.Provider>
   );
 }
 

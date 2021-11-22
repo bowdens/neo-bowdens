@@ -4,23 +4,23 @@ import { FsLink } from "../utils/fs";
 
 import extradimensional from '../assets/extradimensional.png';
 
-const Projects = ({ setWd }) => {
+const Projects = () => {
     return (
         <>
             <h2>Projects</h2>
             <p>Here are a few projects I've worked on.</p>
             <div>
                 <ul>
-                    <li><FsLink path={"./extradimensional"} setWd={setWd}>Extradimension.al</FsLink></li>
-                    <li><FsLink path={"./libtalaris"} setWd={setWd}>Libtalaris</FsLink></li>
-                    <li><FsLink path={"./react-terminal"} setWd={setWd}>react-terminal</FsLink></li>
+                    <li><FsLink path="./extradimensional">Extradimension.al</FsLink></li>
+                    <li><FsLink path="./libtalaris">Libtalaris</FsLink></li>
+                    <li><FsLink path="./react-terminal">react-terminal</FsLink></li>
                 </ul>
             </div>
         </>
     );
 };
 
-const Project = ({ title, blurb, link, children, setWd }) => {
+const Project = ({ title, blurb, link, children }) => {
     return (
         <div>
             <h2>{title || "Untitled Project"}</h2>
@@ -31,31 +31,29 @@ const Project = ({ title, blurb, link, children, setWd }) => {
             <article>
                 {children}
             </article>
-            <FsLink path={".."} setWd={setWd}>Back to Projects</FsLink>
+            <FsLink path={".."}>Back to Projects</FsLink>
         </div>
     )
 }
 
-export const Libtalaris = ({ setWd }) => {
+export const Libtalaris = () => {
     return (
         <Project
             title="Libtalaris"
             blurb="A C based framework for writing shell-like programs"
             link="https://github.com/bowdens/libtalaris"
-            setWd={setWd}
         >
             Libtalaris is a C based framework for writing programs with a shell-like user interface.
         </Project>
     )
 };
 
-export const Extradimensional = ({ setWd }) => {
+export const Extradimensional = () => {
     return (
         <Project
             title="Extradimensional"
             blurb="An online bag of holding"
             link="https://extradimension.al/?ref=neobowdens"
-            setWd={setWd}
         >
             <Image src={extradimensional} alt="extradimensional" fluid />
             <p>Extradimensional is an online bag of holding for RPG players to replace pen and paper.</p>
@@ -69,13 +67,12 @@ export const Extradimensional = ({ setWd }) => {
 };
 
 
-export const ReactTerimnal = ({ setWd }) => {
+export const ReactTerimnal = () => {
     return (
         <Project
             title="react-terminal"
             blurb="A novelty terminal for react"
             link="https://github.com/bowdens/react-terminal"
-            setWd={setWd}
         >
             <p>
                 <code>react-terminal</code> is a novelty terminal component for react.

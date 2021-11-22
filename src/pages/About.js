@@ -1,6 +1,6 @@
 import { FsLink } from '../utils/fs';
 
-const About = ({ setWd }) => {
+const About = () => {
     return (
         <>
             <h2>About Me</h2>
@@ -14,12 +14,15 @@ const About = ({ setWd }) => {
                 <ul>
                     <li>Web Development</li>
                     <li>Dungeons &amp; Dragons</li>
-                    <li><FsLink path="../projects/extradimensional" setWd={setWd}>Combining the two</FsLink></li>
+                    <li><FsLink path="../projects/extradimensional">Combining the two</FsLink></li>
                 </ul>
             </div>
             <p>My links:  {' '}
                 <a href="https://github.com/bowdens" target="_blank" rel="noopener noreferrer">Github</a>, {' '}
                 <a href="https://www.linkedin.com/in/t-bowden/" target="_blank" rel="noopener noreferrer">LinkedIn</a> {' '}
+            </p>
+            <p>Email me:
+                <a href="mailto://tom@bowdens.me">tom@bowdens.me</a>
             </p>
         </>
     );

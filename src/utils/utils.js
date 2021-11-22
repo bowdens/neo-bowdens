@@ -1,4 +1,11 @@
 
+/**
+ * 
+ * @param {Element} element 
+ * @returns Text representation of the element.
+ * This function takes an element and returns its best guess for 
+ * what that element looks like rendered with only the text.
+ */
 export const elementToText = element => {
   let text = "";
   if (element.props && element.props.children) {

@@ -1,3 +1,4 @@
+import { createContext, useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 
 class Inode {
@@ -25,8 +26,14 @@ class Inode {
         const restPath = rest.join('/');
         if (first === '') {
             // navigate to root
-            if (this.parent === null) return this;
-            return this.parent.stat('');
+            if (this.parent === null) {
+                if (restPath === '') {
+                    return this;
+                } else {
+                    return this.stat(restPath);
+                }
+            }
+            return this.parent.stat(target);
         }
         if (first === '.') {
             if (rest === []) return this;
@@ -64,9 +71,23 @@ export const objToInodes = obj => {
     return i;
 };
 
-export const FsLink = ({ path, children, setWd }) => {
+export const inodeToRoutes = inode => {
+    let routes = [];
+    routes.push({ path: inode.pwd(), content: inode.content });
+    if (inode.children) {
+        for (const child of inode.children) {
+            routes = [...routes, ...inodeToRoutes(child)];
+        }
+    }
+    return routes;
+}
+
+export const fsContext = createContext({});
+
+export const FsLink = ({ path, children }) => {
+    const { setWd, wd } = useContext(fsContext);
     return (
-        <Button variant="link" onClick={() => { setWd(path) }}>{children}</Button>
+        <Button variant="link" onClick={() => { setWd(wd.stat(path)) }}>{children}</Button>
     );
 };
 
