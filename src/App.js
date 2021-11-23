@@ -15,6 +15,7 @@ import About from './pages/About';
 import "bootstrap/dist/css/bootstrap.min.css";
 import '@bowdens/react-terminal/dist/index.css';
 import './App.css';
+import Markov from './pages/Markov';
 
 const fs = objToInodes({
   name: "/",
@@ -41,6 +42,10 @@ const fs = objToInodes({
     name: "about",
     path: "about",
     content: About,
+  },{
+    name: "markov",
+    path: "markov",
+    content: Markov
   }, {
     name: ".secret",
     path: ".secret",
