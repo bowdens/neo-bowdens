@@ -137,12 +137,12 @@ function App() {
 
   return (
     <fsContext.Provider value={{ wd, setWd, commandRef }}>
-      <Container style={{ height: '100%', paddingTop: "15vh", maxHeight: "70vh" }}>
+      <Container style={{ height: '100%', paddingTop: "15vh", maxHeight: "85vh" }}>
         <Row style={{ height: '100%' }}>
           <Col lg={4} sm={6} xs={12}>
             <Console
               style={{
-                height: "70vh", minHeight: "200px",
+                height: "100%", minHeight: "200px",
                 color: "limegreen", backgroundColor: "black",
               }}
               programs={programs}
