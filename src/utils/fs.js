@@ -85,9 +85,16 @@ export const inodeToRoutes = inode => {
 export const fsContext = createContext({});
 
 export const FsLink = ({ path, children }) => {
-    const { setWd, wd } = useContext(fsContext);
+    const { commandRef, setWd, wd } = useContext(fsContext);
     return (
-        <Button variant="link" onClick={() => { setWd(wd.stat(path)) }}>{children}</Button>
+        <Button variant="link" onClick={() => {
+            if (commandRef?.current?.pushCommand) {
+                commandRef.current?.pushCommand(`cd ${path}`);
+            } else {
+                // as a back up in case pushCommand isn't available for some reason
+                setWd(wd.stat(path));
+            }
+        }}>{children}</Button>
     );
 };
 

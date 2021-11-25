@@ -2,7 +2,7 @@ import Console from '@bowdens/react-terminal';
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Route, Switch, useHistory, useLocation } from "react-router-dom";
 
 import { fsContext, FsLink, inodeToRoutes, objToInodes } from './utils/fs';
@@ -11,11 +11,14 @@ import Home from "./pages/Home";
 import Projects, { Extradimensional, Libtalaris, ReactTerimnal } from "./pages/Projects";
 import Secret from './pages/Secret';
 import About from './pages/About';
+import Markov from './pages/Markov';
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import '@bowdens/react-terminal/dist/index.css';
 import './App.css';
-import Markov from './pages/Markov';
+import github from './assets/github.png';
+import linkedin from './assets/linkedin.png';
+import email from './assets/email.png';
 
 const fs = objToInodes({
   name: "/",
@@ -42,7 +45,7 @@ const fs = objToInodes({
     name: "about",
     path: "about",
     content: About,
-  },{
+  }, {
     name: "markov",
     path: "markov",
     content: Markov
@@ -65,8 +68,8 @@ function App() {
   useEffect(() => {
     const node = fs.stat(location.pathname);
     _setWd(node);
-  // we only want to do this when its first loaded to sync up the pathname with wd
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // we only want to do this when its first loaded to sync up the pathname with wd
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const programs = {
@@ -130,11 +133,13 @@ function App() {
     dir: () => "Try ls",
   };
 
+  const commandRef = useRef();
+
   return (
-    <fsContext.Provider value={{ wd, setWd }}>
-      <Container style={{ height: '100%', marginTop: "10vh", maxHeight: "70vh" }}>
-        <Row style={{ height: '100%', maxWidth: "800px" }}>
-          <Col md={6}>
+    <fsContext.Provider value={{ wd, setWd, commandRef }}>
+      <Container style={{ height: '100%', paddingTop: "10vh", maxHeight: "70vh" }}>
+        <Row style={{ height: '100%' }}>
+          <Col lg={4} sm={6} xs={12}>
             <Console
               style={{
                 height: "70vh", minHeight: "200px",
@@ -143,10 +148,12 @@ function App() {
               programs={programs}
               prompt={`${wd.name} $\u00a0`}
               motd={"Welcome to the terminal!\nYou can navigate using the unix commands like ls and cd."}
+              tabComplete={[...Object.keys(programs), ...((wd && wd.children) || []).map(inode => inode.name)]}
+              ref={commandRef}
             />
           </Col>
           <Col
-            md={6}
+            lg={4} sm={6} xs={12}
             style={{
               overflowY: "auto",
               maxHeight: "100%",
@@ -158,7 +165,13 @@ function App() {
               <div
                 className="text-muted"
                 style={{ cursor: "pointer" }}
-                onClick={() => { setWd(wd.stat("/")) }}
+                onClick={() => {
+                  if (commandRef.current?.pushCommand) {
+                    commandRef.current?.pushCommand("cd /")
+                  } else {
+                    setWd(wd.stat("/"));
+                  }
+                }}
               >
                 {wd.pwd()}
               </div>
@@ -174,6 +187,28 @@ function App() {
                   Page not found! <FsLink path="/">Return Home</FsLink>
                 </Route>
               </Switch>
+            </Row>
+          </Col>
+          <Col className="d-none d-lg-flex flex-column" style={{padding: "0 5em"}} lg={4}>
+            <Row className="mt-auto py-2" as="a" href="https://github.com/bowdens" target="_blank" rel="noopener noreferrer">
+              <Col xs={4} className="d-flex justify-content-end">
+                <img src={github} alt="Github Logo" height={24} />
+              </Col>
+              <Col xs={8}>@bowdens</Col>
+            </Row>
+            <hr />
+            <Row className="py-2" as="a" href="https://linkedin.com/in/t-bowden" target="_blank" rel="noopener noreferrer">
+              <Col xs={4} className="d-flex justify-content-end">
+                <img src={linkedin} alt="Linkedin Logo" height={24} />
+              </Col>
+              <Col xs={8}>/in/t-bowden</Col>
+            </Row>
+            <hr />
+            <Row className="mb-auto py-2" as="a" href="mailto://tom@bowdens.me">
+              <Col xs={4} className="d-flex justify-content-end">
+                <img src={email} alt="Email Icon" height={24} />
+              </Col>
+              <Col xs={8}>tom@bowdens.me</Col>
             </Row>
           </Col>
         </Row>
