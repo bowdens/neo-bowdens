@@ -137,7 +137,7 @@ function App() {
 
   return (
     <fsContext.Provider value={{ wd, setWd, commandRef }}>
-      <Container style={{ height: '100%', paddingTop: "10vh", maxHeight: "70vh" }}>
+      <Container style={{ height: '100%', paddingTop: "15vh", maxHeight: "70vh" }}>
         <Row style={{ height: '100%' }}>
           <Col lg={4} sm={6} xs={12}>
             <Console
