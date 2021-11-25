@@ -21,7 +21,7 @@ const Home = () => {
                 <p>If you're familiar with how to navigate around in a UNIX-like terminal then you should be good.</p>
                 <p>Use <code>ls</code> to list the files (web pages), and <code>cd [TARGET]</code> to view it.</p>
                 <p>Use <code>cd ..</code> to return to the parent directory, and <code>pwd</code> to show where you're at.</p>
-                <p>Also by the way (most) of the bash control keys work!</p>
+                <p>Also by the way (most) of the bash control keys work, including tab completion!</p>
             </div>
         </>
     );
