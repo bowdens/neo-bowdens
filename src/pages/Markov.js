@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Tooltip from 'react-bootstrap/Tooltip'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import InfoIcon from '@mui/icons-material/InfoOutlined';
+
 import { api } from '../utils/api';
-import { Button, Col } from 'react-bootstrap';
 
 const formattingTypes = {
-    "Medieval Soldier Names": ([first, last]) => <Row><Col>{first} {last}</Col></Row>,
-    "Blue Creature": ([name, stats, _text]) => {
+    "Medieval Soldier Names": ([first, last], key) => <Row key={key}><Col>{first} {last}</Col></Row>,
+    "MLB Player Names": ([first, last], key) => <Row key={key}><Col>{first} {last}</Col></Row>,
+    "Blue Creature": ([name, stats, _text], key) => {
         const text = _text.replace(/~/g, name.split(",")[0]);
-        const [_, cost, atk, def, types] = (stats && /^([^ ]*) - ([^ ]*) \/ ([^ ]*) : (.*)$/.exec(stats)) ||  [null, null, null, null, null] ;
-        return (<>
+        const [, cost, atk, def, types] = (stats && /^([^ ]*) - ([^ ]*) \/ ([^ ]*) : (.*)$/.exec(stats)) || [null, null, null, null, null];
+        return (<React.Fragment key={key}>
             <Row>
                 <Col className="fw-bold">{name}</Col>
                 <Col xs="auto">{cost}</Col>
@@ -17,16 +23,16 @@ const formattingTypes = {
             <Row className="border-top border-bottom">
                 <Col>{types}</Col>
             </Row>
-            {text.split("\n").map(line => 
+            {text.split("\n").map(line =>
                 <Row>
-                    <Col style={{fontSize: "0.9em"}}>{line}</Col>
+                    <Col style={{ fontSize: "0.9em" }}>{line}</Col>
                 </Row>
             )}
             <Row className="mb-3">
                 <Col />
                 <Col xs="auto">{atk}/{def}</Col>
             </Row>
-        </>);
+        </React.Fragment>);
     }
 };
 
@@ -38,9 +44,14 @@ const Component = ({ name, path, args, currentArgs, setArgs, quantity }) => {
             <h5>{name}</h5>
             <Form>
                 {degree.values.map((value, i) =>
-                    <Form.Check 
-                        type="radio" key={i} label={`${degree.labels[i]}`} 
-                        title={degree.descriptions[i]} checked={currentDegree === value} 
+                    <Form.Check
+                        type="radio" key={i} label={<div>
+                            <span className="align-middle">{degree.labels[i]}</span>
+                            <OverlayTrigger placement="top" overlay={<Tooltip>{degree.descriptions[i]}</Tooltip>}>
+                                <InfoIcon className="ms-1" fontSize="sm" />
+                            </OverlayTrigger>
+                        </div>}
+                        checked={currentDegree === value}
                         onChange={e => {
                             if (e.target.value) {
                                 setArgs(value);
@@ -58,16 +69,16 @@ const Generator = ({ name, desc, components }) => {
     //const [quantity, setQuantity] = useState(20);
     const quantity = 1;
     const [args, setArgs] = useState(components.map(component => component.args[0].values[0]));
-    const formattedPaths = components.map((c,i) => c.path.replace("{}", args[i]).replace("{}", quantity));
-    const [results, setResults] = useState(components.map(_=>[]));
+    const formattedPaths = components.map((c, i) => c.path.replace("{}", args[i]).replace("{}", quantity));
+    const [results, setResults] = useState(components.map(_ => []));
     return (
         <>
             <Row>
                 <h4>{name}</h4>
                 <p>{desc}</p>
             </Row>
-            {components.map((c,i) => 
-                <Component {...c} key={i} currentArgs={args[i]} quantity={quantity} setArgs={newArgs=>{
+            {components.map((c, i) =>
+                <Component {...c} key={i} currentArgs={args[i]} quantity={quantity} setArgs={newArgs => {
                     const _newArgs = [...args];
                     _newArgs[i] = newArgs;
                     setArgs(_newArgs);
@@ -82,10 +93,9 @@ const Generator = ({ name, desc, components }) => {
                 */}
                 <Col />
                 <Col xs="auto">
-                    <Button onClick={()=>{
+                    <Button onClick={() => {
                         const allResults = formattedPaths.map(path => api.get(path));
                         Promise.all(allResults).then(newResults => {
-                            console.log({newResults});
                             setResults(newResults.map(r => r.result));
                         })
                     }}>
@@ -96,7 +106,12 @@ const Generator = ({ name, desc, components }) => {
             </Row>
             <hr />
             <Row className="mb-3 bg-light">
-                {results[0].map((_, i) => formattingTypes[name](results.map(r => r[i])))}
+                {results[0].map((_, i) => {
+                    if (formattingTypes[name]) {
+                        return formattingTypes[name](results.map(r => r[i]), i);
+                    }
+                    return results.map(r => r[i]).join(" ");
+                })}
             </Row>
             <hr />
         </>

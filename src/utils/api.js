@@ -1,5 +1,5 @@
-//const API_URL = "http://localhost:8080/https://bowdens.me/api";
-const API_URL = "/api";
+const API_URL = "http://localhost:8080/https://bowdens.me/api";
+//const API_URL = "/api";
 
 export const api = {
   get: async (endpoint, init = {}) => {

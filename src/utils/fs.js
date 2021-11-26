@@ -1,6 +1,8 @@
-import { createContext, useContext } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import Button from 'react-bootstrap/Button';
-
+import Tooltip from 'react-bootstrap/Tooltip';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import {v4} from 'uuid';
 class Inode {
     constructor(name, content, path) {
         this.name = name;
@@ -86,15 +88,18 @@ export const fsContext = createContext({});
 
 export const FsLink = ({ path, children }) => {
     const { commandRef, setWd, wd } = useContext(fsContext);
+    const [uniqueId] = useState(v4());
     return (
-        <Button variant="link" onClick={() => {
-            if (commandRef?.current?.pushCommand) {
-                commandRef.current?.pushCommand(`cd ${path}`);
-            } else {
-                // as a back up in case pushCommand isn't available for some reason
-                setWd(wd.stat(path));
-            }
-        }}>{children}</Button>
+        <OverlayTrigger placement="top" overlay={<Tooltip id={`tooltip-${uniqueId}`}>cd {path}</Tooltip>}>
+            <Button variant="link" onClick={() => {
+                if (commandRef?.current?.pushCommand) {
+                    commandRef.current?.pushCommand(`cd ${path}`);
+                } else {
+                    // as a back up in case pushCommand isn't available for some reason
+                    setWd(wd.stat(path));
+                }
+            }}>{children}</Button>
+        </OverlayTrigger>
     );
 };
 

@@ -13,7 +13,7 @@ import Secret from './pages/Secret';
 import About from './pages/About';
 import Markov from './pages/Markov';
 
-import "bootstrap/dist/css/bootstrap.min.css";
+//import "bootstrap/dist/css/bootstrap.min.css";
 import '@bowdens/react-terminal/dist/index.css';
 import './App.css';
 import github from './assets/github.png';
@@ -120,7 +120,14 @@ function App() {
           output += `${prog}: ${target}: no such file or directory\n`;
         } else {
           if (targets.length > 1) output += target + '\n';
-          if (inode.content) output += elementToText(inode.content({})) + '\n';
+          if (inode.content) {
+            try {
+              const content = inode.content({});
+              output += elementToText(content) + '\n';
+            } catch(err) {
+              output += `failed to cat '${target}' It's probably not idempotent and uses hooks, which can't be printed\n`;
+            }
+          }
         }
       }
       return output;
@@ -139,10 +146,10 @@ function App() {
     <fsContext.Provider value={{ wd, setWd, commandRef }}>
       <Container style={{ height: '100%', paddingTop: "15vh", maxHeight: "85vh" }}>
         <Row style={{ height: '100%' }}>
-          <Col lg={4} sm={6} xs={12}>
+          <Col className="mb-3 mb-md-0" xl={4} lg={5} md={6} xs={12}>
             <Console
               style={{
-                height: "100%", minHeight: "200px",
+                height: "100%", minHeight: "200px", maxHeight: "70vh",
                 color: "limegreen", backgroundColor: "black",
               }}
               programs={programs}
@@ -153,7 +160,7 @@ function App() {
             />
           </Col>
           <Col
-            lg={4} sm={6} xs={12}
+            xl={4} lg={5} md={6} xs={12}
             style={{
               overflowY: "auto",
               maxHeight: "100%",
@@ -189,7 +196,7 @@ function App() {
               </Switch>
             </Row>
           </Col>
-          <Col className="d-none d-lg-flex flex-column" style={{padding: "0 5em"}} lg={4}>
+          <Col className="d-none d-xl-flex flex-column" style={{padding: "0 5em"}} lg={4}>
             <Row className="mt-auto py-2" as="a" href="https://github.com/bowdens" target="_blank" rel="noopener noreferrer">
               <Col xs={4} className="d-flex justify-content-end">
                 <img src={github} alt="Github Logo" height={24} />
