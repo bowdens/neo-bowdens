@@ -71,6 +71,7 @@ const Generator = ({ name, desc, components }) => {
     const [args, setArgs] = useState(components.map(component => component.args[0].values[0]));
     const formattedPaths = components.map((c, i) => c.path.replace("{}", args[i]).replace("{}", quantity));
     const [results, setResults] = useState(components.map(_ => []));
+    const [error, setError] = useState(null);
     return (
         <>
             <Row>
@@ -95,9 +96,13 @@ const Generator = ({ name, desc, components }) => {
                 <Col xs="auto">
                     <Button onClick={() => {
                         const allResults = formattedPaths.map(path => api.get(path));
+                        setError(null);
                         Promise.all(allResults).then(newResults => {
                             setResults(newResults.map(r => r.result));
-                        })
+                        }).catch(err => {
+                            setResults([]);
+                            setError(err.toString());
+                        });
                     }}>
                         Generate
                     </Button>
@@ -106,7 +111,9 @@ const Generator = ({ name, desc, components }) => {
             </Row>
             <hr />
             <Row className="mb-3 bg-light">
-                {results[0].map((_, i) => {
+                {error 
+                ? <pre>Error executing model: {error}</pre>
+                : results[0].map((_, i) => {
                     if (formattingTypes[name]) {
                         return formattingTypes[name](results.map(r => r[i]), i);
                     }
@@ -138,7 +145,7 @@ const Markov = () => {
                 ? descriptors !== null
                     ? descriptors.map(d => <Generator {...d} key={d.name} />)
                     : <p>Loading...</p>
-                : <p>{error}</p>
+                : <p>Failed to load markov models: <pre>{error}</pre></p>
             }
         </>
     );

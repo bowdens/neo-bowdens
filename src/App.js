@@ -151,6 +151,8 @@ function App() {
               style={{
                 height: "100%", minHeight: "200px", maxHeight: "70vh",
                 color: "limegreen", backgroundColor: "black",
+                padding: "0.2em 0.5em", borderRadius: "0.8em",
+                scrollbarWidth: "thin", scrollbarColor: "black white"
               }}
               programs={programs}
               prompt={`${wd.name} $\u00a0`}
@@ -183,7 +185,7 @@ function App() {
                 {wd.pwd()}
               </div>
             </Row>
-            <Row>
+            <Row className="main-content">
               <Switch>
                 {inodeToRoutes(fs).map(({ path, content: Content }) =>
                   <Route path={path} key={path} exact>

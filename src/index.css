@@ -2,15 +2,53 @@
   font-family: 'Hack';
   src: local('Hack'), url('./fonts/Hack-Regular.ttf') format('truetype');
 }
+@import url('https://fonts.googleapis.com/css2?family=Faustina:ital,wght@0,400;0,700;1,400;1,700&family=Source+Code+Pro:wght@400;700&display=swap');
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Hack', source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  font-family: -apple-system, BlinkMacSystemFont, 'Faustina', serif;
+  font-size: 1.0rem;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+h1, h2, h3, h4, h5, .text-muted {
+  font-family: 'Hack';
+}
+
+p {
+  margin-bottom: 0.7rem;
+}
+
+.main-content {
+  font-size: 20px;
+}
+
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: 'Hack', Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+  color: limegreen;
+  background-color: black;
+  padding: 2px;
+  border-radius: 4px;
+  display: inline-block;
+  font-size: 0.8em;
+}
+
+code.terminal::before {
+  content: "$";
+  padding-right: 0.3em;
+}
+
+.btn-link {
+  text-decoration: none;
+  font-weight: bold;
+  color: darkgreen;
+  padding: 0 0 0.35em 0;
+  font-size: 20px;
+}
+
+.btn-link:hover {
+  text-decoration: underline;
+  color: green;
 }
