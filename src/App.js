@@ -3,7 +3,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import React, { useEffect, useRef, useState } from "react";
-import { Route, Switch, useHistory, useLocation } from "react-router-dom";
+import { Route, Switch, useHistory, useLocation, Redirect } from "react-router-dom";
 
 import { fsContext, FsLink, inodeToRoutes, objToInodes } from './utils/fs';
 import { elementToText } from './utils/utils';
@@ -66,7 +66,7 @@ function App() {
   };
 
   useEffect(() => {
-    const node = fs.stat(location.pathname);
+    const node = fs.stat(location.pathname) || fs;
     _setWd(node);
     // we only want to do this when its first loaded to sync up the pathname with wd
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -190,6 +190,9 @@ function App() {
                     <Content />
                   </Route>
                 )}
+                <Route path="/libtalaris">
+                  <Redirect to="/projects/libtalaris" />
+                </Route>
                 <Route path="/">
                   Page not found! <FsLink path="/">Return Home</FsLink>
                 </Route>
