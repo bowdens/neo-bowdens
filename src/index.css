@@ -43,7 +43,7 @@ code.terminal::before {
 .btn-link {
   text-decoration: none;
   font-weight: bold;
-  color: darkgreen;
+  color: #003322;
   padding: 0 0 0.35em 0;
   font-size: 20px;
 }
