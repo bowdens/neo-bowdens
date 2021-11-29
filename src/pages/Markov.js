@@ -12,7 +12,7 @@ import { api } from '../utils/api';
 const formattingTypes = {
     "Medieval Soldier Names": ([first, last], key) => <Row key={key}><Col>{first} {last}</Col></Row>,
     "MLB Player Names": ([first, last], key) => <Row key={key}><Col>{first} {last}</Col></Row>,
-    "Blue Creature": ([name, stats, _text], key) => {
+    "MTG Creature": ([name, stats, _text], key) => {
         const text = _text.replace(/~/g, name.split(",")[0]);
         const [, cost, atk, def, types] = (stats && /^([^ ]*) - ([^ ]*) \/ ([^ ]*) : (.*)$/.exec(stats)) || [null, null, null, null, null];
         return (<React.Fragment key={key}>
@@ -67,9 +67,18 @@ const Component = ({ name, path, args, currentArgs, setArgs, quantity }) => {
 
 const Generator = ({ name, desc, components }) => {
     //const [quantity, setQuantity] = useState(20);
+    const parentComponents = components.filter(c => c.type === "parent");
+    const nonParentComponents = components.filter(c => c.type !== "parent");
     const quantity = 1;
-    const [args, setArgs] = useState(components.map(component => component.args[0].values[0]));
-    const formattedPaths = components.map((c, i) => c.path.replace("{}", args[i]).replace("{}", quantity));
+    const [parentArgs, setParentArgs] = useState(parentComponents.map(component => component.args[0].values[0]));
+    const [args, setArgs] = useState(nonParentComponents.map(component => component.args[0].values[0]));
+    const formattedPaths = nonParentComponents.map((c, i) => {
+        let path = c.path;
+        for (const parentArg of parentArgs) {
+            path = path.replace("{}", parentArg);
+        }
+        return path.replace("{}", args[i]).replace("{}", quantity);
+    });
     const [results, setResults] = useState(components.map(_ => []));
     const [error, setError] = useState(null);
     return (
@@ -78,7 +87,14 @@ const Generator = ({ name, desc, components }) => {
                 <h4>{name}</h4>
                 <p>{desc}</p>
             </Row>
-            {components.map((c, i) =>
+            {parentComponents.map((c, i) =>
+                <Component {...c} key={i} currentArgs={parentArgs[i]} quantity={quantity} setArgs={newArgs => {
+                    const _newArgs = [...parentArgs];
+                    _newArgs[i] = newArgs;
+                    setParentArgs(_newArgs);
+                }} />
+            )}
+            {nonParentComponents.map((c, i) =>
                 <Component {...c} key={i} currentArgs={args[i]} quantity={quantity} setArgs={newArgs => {
                     const _newArgs = [...args];
                     _newArgs[i] = newArgs;
@@ -111,14 +127,14 @@ const Generator = ({ name, desc, components }) => {
             </Row>
             <hr />
             <Row className="mb-3 bg-light">
-                {error 
-                ? <pre>Error executing model: {error}</pre>
-                : results[0].map((_, i) => {
-                    if (formattingTypes[name]) {
-                        return formattingTypes[name](results.map(r => r[i]), i);
-                    }
-                    return results.map(r => r[i]).join(" ");
-                })}
+                {error
+                    ? <pre>Error executing model: {error}</pre>
+                    : results[0].map((_, i) => {
+                        if (formattingTypes[name]) {
+                            return formattingTypes[name](results.map(r => r[i]), i);
+                        }
+                        return results.map(r => r[i]).join(" ");
+                    })}
             </Row>
             <hr />
         </>
