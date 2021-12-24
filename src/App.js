@@ -19,6 +19,11 @@ import './App.css';
 import github from './assets/github.png';
 import linkedin from './assets/linkedin.png';
 import email from './assets/email.png';
+import Christmas from './pages/Christmas';
+import Luke from './pages/Christmas/Luke';
+import Lorraine from './pages/Christmas/Lorraine';
+import Dan from './pages/Christmas/Dan';
+import Fleur from './pages/Christmas/Fleur';
 
 const fs = objToInodes({
   name: "/",
@@ -49,6 +54,27 @@ const fs = objToInodes({
     name: "markov",
     path: "markov",
     content: Markov
+  }, {
+    name: "christmas",
+    path: "christmas",
+    content: Christmas,
+    children: [{
+      name: "luke",
+      path: "luke",
+      content: Luke
+    }, {
+      name: "lorraine",
+      path: "lorraine",
+      content: Lorraine
+    }, {
+      name: "daniel",
+      path: "daniel",
+      content: Dan
+    }, {
+      name: "fleur",
+      path: "fleur",
+      content: Fleur
+    }]
   }, {
     name: ".secret",
     path: ".secret",

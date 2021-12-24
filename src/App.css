@@ -9,3 +9,14 @@ body {
 #root {
   height: 100%;
 }
+
+.christmas-button {
+  border: none;
+  font-weight: bold;
+  font-size: 2em;
+  background: rgb(205,21,21);
+  background: -moz-linear-gradient(90deg, rgba(205,21,21,1) 0%, rgba(0,215,42,1) 100%);
+  background: -webkit-linear-gradient(90deg, rgba(205,21,21,1) 0%, rgba(0,215,42,1) 100%);
+  background: linear-gradient(90deg, rgba(205,21,21,1) 0%, rgba(0,215,42,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#cd1515",endColorstr="#00d72a",GradientType=1); 
+}
