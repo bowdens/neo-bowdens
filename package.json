@@ -22,7 +22,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && rm -r ~/www.bowdens.me && cp -r ./build ~/www.bowdens.me",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
