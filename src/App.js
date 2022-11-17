@@ -19,11 +19,11 @@ import './App.css';
 import github from './assets/github.png';
 import linkedin from './assets/linkedin.png';
 import email from './assets/email.png';
-import Christmas from './pages/Christmas';
-import Luke from './pages/Christmas/Luke';
-import Lorraine from './pages/Christmas/Lorraine';
-import Dan from './pages/Christmas/Dan';
-import Fleur from './pages/Christmas/Fleur';
+//import Christmas from './pages/Christmas';
+//import Luke from './pages/Christmas/Luke';
+//import Lorraine from './pages/Christmas/Lorraine';
+//import Dan from './pages/Christmas/Dan';
+//import Fleur from './pages/Christmas/Fleur';
 
 const fs = objToInodes({
   name: "/",
