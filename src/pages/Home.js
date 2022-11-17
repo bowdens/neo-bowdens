@@ -14,9 +14,11 @@ const Home = () => {
     return (
         <>
             <h2>Hi There!</h2>
+	    {/*
             <Alert variant="success">
                 Is it Christmas already? <FsLink path="/christmas">Click here!</FsLink>
             </Alert>
+	    */}
             <p>This is <FsLink path="about">Tom Bowden's</FsLink> site.</p>
             <p>Some projects I've worked on are <FsLink path="projects">here</FsLink>.</p>
             <p>Try using the terminal on the left! I built it for the CSESoc competition. You can use it too!</p>

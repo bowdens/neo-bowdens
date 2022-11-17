@@ -54,7 +54,7 @@ const fs = objToInodes({
     name: "markov",
     path: "markov",
     content: Markov
-  }, {
+  },/* {
     name: "christmas",
     path: "christmas",
     content: Christmas,
@@ -75,7 +75,7 @@ const fs = objToInodes({
       path: "fleur",
       content: Fleur
     }]
-  }, {
+  },*/ {
     name: ".secret",
     path: ".secret",
     content: Secret
